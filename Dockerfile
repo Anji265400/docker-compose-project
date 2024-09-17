@@ -54,3 +54,21 @@ EXPOSE 80
 
 # start Apache2 on image start
 CMD ["/usr/sbin/apache2ctl","-DFOREGROUND"]
+
+# Example for a Python backend
+FROM python:3.8-slim
+
+# Set work directory
+WORKDIR /app
+
+# Copy requirements file and install dependencies
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Install pytest
+RUN pip install pytest
+
+# Copy the rest of your application
+COPY . .
+
+CMD ["python", "app.py"]
